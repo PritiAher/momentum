@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Theme + accent CSS variables. Values are "R G B" triples (no commas, no
+ * rgb() wrapper) so Tailwind's <alpha-value> placeholder can compose them
+ * with an opacity — see tailwind.config.ts. .dark is applied by default
+ * (Momentum ships dark-mode-first); .light is toggled by Settings.
+ * --color-accent(-hover) are set separately, inline, by the accent-color
+ * picker in Settings — they're theme-independent by design, so switching
+ * dark/light never resets your chosen accent.
+ */
+:root,
+.dark {
+  --color-base: 10 10 15;
+  --color-base-surface: 19 18 24;
+  --color-base-surface-raised: 27 26 34;
+  --color-base-border: 38 36 47;
+  --color-base-border-subtle: 28 27 34;
+  --color-ink: 237 237 242;
+  --color-ink-muted: 156 154 171;
+  --color-ink-faint: 107 104 120;
+
+  --color-accent: 124 111 240;
+  --color-accent-hover: 144 134 245;
+}
+
+.light {
+  --color-base: 250 250 252;
+  --color-base-surface: 255 255 255;
+  --color-base-surface-raised: 244 244 248;
+  --color-base-border: 228 228 234;
+  --color-base-border-subtle: 236 236 241;
+  --color-ink: 24 24 32;
+  --color-ink-muted: 100 100 116;
+  --color-ink-faint: 150 150 165;
+}
+
+@layer base {
+  * {
+    @apply border-base-border;
+  }
+  body {
+    @apply bg-base text-ink;
+  }
+  ::selection {
+    @apply bg-accent/30 text-ink;
+  }
+  /* Visible keyboard focus everywhere, not just inputs. */
+  :focus-visible {
+    outline: 2px solid theme("colors.accent.DEFAULT");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-base-border rounded-full;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-base-surface border border-base-border rounded-xl shadow-card;
+  }
+  .card-hover {
+    @apply transition-shadow duration-200 hover:shadow-card-hover;
+  }
+}
